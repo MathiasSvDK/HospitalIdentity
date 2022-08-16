@@ -35,9 +35,9 @@ namespace IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:5001//signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:5001//signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:5001//signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:5001/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:5001/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile" }

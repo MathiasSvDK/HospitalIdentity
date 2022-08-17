@@ -12,6 +12,10 @@ namespace IdentityServer
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
+                new IdentityResource(
+                name: "custom.name",
+                displayName: "Custom Name",
+                userClaims: new[] { "name", "firstname", "lastname", "mobilnr", "gruppe", "hospitalid", "email" }),
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                    };
@@ -38,9 +42,11 @@ namespace IdentityServer
                     RedirectUris = { "https://localhost:5002/signin-oidc" },
                     FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
                     PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile" }
+                    AllowedScopes = { "openid", "profile", "custom.name" }
                 },
             };
     }

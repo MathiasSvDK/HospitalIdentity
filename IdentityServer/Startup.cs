@@ -4,7 +4,8 @@
 
 using IdentityServer.Data;
 using IdentityServer.Models;
-using IdentityServer4;
+using IdentityServer.Services;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -38,8 +39,6 @@ namespace IdentityServer
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection").ToString(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.34-mariadb")));
 
 
-
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -56,7 +55,14 @@ namespace IdentityServer
             })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryClients(Config.Clients)
+            .AddProfileService<Gangster>()
                 .AddAspNetIdentity<ApplicationUser>();
+
+            services.AddTransient<IProfileService, Gangster>();
+
+
+
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();

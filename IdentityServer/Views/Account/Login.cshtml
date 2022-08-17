@@ -1,92 +1,76 @@
 @model LoginViewModel
 
+
 <div class="login-page">
-    <div class="lead">
-        <h1>Login</h1>
-        <p>Choose how to login</p>
-    </div>
-
     <partial name="_ValidationSummary" />
-
-    <div class="row">
-
-        @if (Model.EnableLocalLogin)
-        {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Local Account</h2>
-                    </div>
-
+    @if (Model.EnableLocalLogin)
+    {
+        <div class="page page-center">
+            <div class="container-tight py-4">
+                <div class="text-center mb-4">
+                    <a href="." class="navbar-brand navbar-brand-autodark"><img src="/static/logo.svg" height="140" alt=""></a>
+                </div>
+                <form class="card card-md"  asp-route="Login">
                     <div class="card-body">
-                        <form asp-route="Login">
-                            <input type="hidden" asp-for="ReturnUrl" />
+                        <h2 class="card-title text-center mb-4">Log ind til konto</h2>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="Username">Email adresse</label>
 
-                            <div class="form-group">
-                                <label asp-for="Username"></label>
-                                <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Password"></label>
+
+                            <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+
+
+
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" asp-for="Password">
+                                Adgangskode
+                                <span class="form-label-description">
+                                    <a href="#">Glemt adgangskoden?</a>
+                                </span>
+                            </label>
+                            <div class="input-group input-group-flat">
+
+
                                 <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                            </div>
-                            @if (Model.AllowRememberLogin)
-                            {
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" asp-for="RememberLogin">
-                                        <label class="form-check-label" asp-for="RememberLogin">
-                                            Remember My Login
-                                        </label>
-                                    </div>
-                                </div>
-                            }
 
-                            <div>
-                                <p>The default users are alice/bob, password: Pass123$</p>
-                            </div>
 
-                            <button class="btn btn-primary" name="button" value="login">Login</button>
-                            <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        }
 
-        @if (Model.VisibleExternalProviders.Any())
-        {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>External Account</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-inline">
-                            @foreach (var provider in Model.VisibleExternalProviders)
-                            {
-                                <li class="list-inline-item">
-                                    <a class="btn btn-secondary"
-                                       asp-controller="External"
-                                       asp-action="Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.ReturnUrl">
-                                        @provider.DisplayName
+                                <span class="input-group-text">
+                                    <a href="#" class="link-secondary" data-bs-toggle="tooltip" aria-label="Show password">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
                                     </a>
-                                </li>
-                            }
-                        </ul>
+                                </span>
+                            </div>
+                        </div>
+                        @if (Model.AllowRememberLogin)
+                        {
+                            <div class="mb-2">
+                                <label class="form-check">
+                                    <input type="checkbox" class="form-check-input" asp-for="RememberLogin">
+                                    <label class="form-check-label" asp-for="RememberLogin">Husk denne enhed</label>
+                                </label>
+                            </div>
+                        }
+                        <div class="form-footer">
+                            <button name="button" value="login" class="btn btn-primary w-100">Log ind</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        }
 
-        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
-        {
-            <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this request.
+                    <div class="text-center text-muted mt-3">
+                        Standard bruger: alice/bob, password: Pass123$
+                    </div>
+                    <br />
+                    <br />
+                </form>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
+
+
+
+
+
+

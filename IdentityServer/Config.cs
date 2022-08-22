@@ -48,6 +48,22 @@ namespace IdentityServer
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile", "custom.name" }
                 },
-            };
+				new Client
+				{
+					ClientId = "booking",
+					ClientSecrets = { new Secret("secret".Sha256()) },
+
+					AllowedGrantTypes = GrantTypes.Code,
+
+					RedirectUris = { "https://localhost:5003/signin-oidc" },
+					FrontChannelLogoutUri = "https://localhost:5003/signout-oidc",
+					PostLogoutRedirectUris = { "https://localhost:5003/signout-callback-oidc" },
+					AlwaysSendClientClaims = true,
+					AlwaysIncludeUserClaimsInIdToken = true,
+
+					AllowOfflineAccess = true,
+					AllowedScopes = { "openid", "profile", "custom.name" }
+				},
+			};
     }
 }

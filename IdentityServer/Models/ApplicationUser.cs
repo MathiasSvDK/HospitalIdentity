@@ -13,5 +13,6 @@ namespace IdentityServer.Models
         public int HospitalId { get; set; }
         public string Email { get; set; }
         public string Pfp { get; set; }
+        public string Note { get; set; }
     }
 }

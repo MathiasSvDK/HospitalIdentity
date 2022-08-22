@@ -38,7 +38,6 @@ namespace IdentityServer
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection").ToString(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.34-mariadb")));
 
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -55,13 +54,10 @@ namespace IdentityServer
             })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryClients(Config.Clients)
-            .AddProfileService<Gangster>()
+                .AddProfileService<Gangster>()
                 .AddAspNetIdentity<ApplicationUser>();
 
             services.AddTransient<IProfileService, Gangster>();
-
-
-
 
 
             // not recommended for production - you need to store your key material somewhere secure

@@ -33,6 +33,7 @@ namespace IdentityServer.Services
             context.IssuedClaims.Add(new Claim("addrses", user.Address));
             context.IssuedClaims.Add(new Claim("mobilnr", user.Mobilnr));
             context.IssuedClaims.Add(new Claim("gruppe", user.Role.ToString()));
+            context.IssuedClaims.Add(new Claim("role", user.Role.ToString()));
             context.IssuedClaims.Add(new Claim("hospitalid", user.HospitalId.ToString()));
             context.IssuedClaims.Add(new Claim("email", user.Email));
             //return Task.FromResult(0);

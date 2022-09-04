@@ -15,7 +15,7 @@ namespace IdentityServer
                 new IdentityResource(
                 name: "custom.name",
                 displayName: "Custom Name",
-                userClaims: new[] { "name", "firstname", "lastname", "mobilnr", "gruppe", "hospitalid", "email" }),
+                userClaims: new[] { "name", "firstname", "lastname", "mobilnr","address", "gruppe", "hospitalid", "email" }),
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                    };

@@ -38,10 +38,9 @@ namespace IdentityServer
 			services.AddDbContext<ApplicationDbContext>(options =>
 			options.UseMySql(Configuration.GetConnectionString("DefaultConnection").ToString(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.34-mariadb")));
 
-
-			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
 			var builder = services.AddIdentityServer(options =>
 			{
@@ -63,12 +62,9 @@ namespace IdentityServer
 			services.AddTransient<IProfileService, Gangster>();
 
 
-
-
-
-			// not recommended for production - you need to store your key material somewhere secure
-			builder.AddDeveloperSigningCredential();
-		}
+            // not recommended for production - you need to store your key material somewhere secure
+            builder.AddDeveloperSigningCredential();
+        }
 
 		public void Configure(IApplicationBuilder app)
 		{

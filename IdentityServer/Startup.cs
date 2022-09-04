@@ -17,74 +17,76 @@ using Microsoft.Extensions.Hosting;
 
 namespace IdentityServer
 {
-    public class Startup
-    {
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
+	public class Startup
+	{
+		public IWebHostEnvironment Environment { get; }
+		public IConfiguration Configuration { get; }
 
-        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
-        {
-            Environment = environment;
-            Configuration = configuration;
-        }
+		public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+		{
+			Environment = environment;
+			Configuration = configuration;
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
-
-
-
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString("DefaultConnection").ToString(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.34-mariadb")));
-
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            var builder = services.AddIdentityServer(options =>
-            {
-                options.Events.RaiseErrorEvents = true;
-                options.Events.RaiseInformationEvents = true;
-                options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseSuccessEvents = true;
-
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                options.EmitStaticAudienceClaim = true;
-            })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryClients(Config.Clients)
-            .AddProfileService<Gangster>()
-                .AddAspNetIdentity<ApplicationUser>();
-
-            services.AddTransient<IProfileService, Gangster>();
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddControllersWithViews();
 
 
 
 
+			services.AddDbContext<ApplicationDbContext>(options =>
+			options.UseMySql(Configuration.GetConnectionString("DefaultConnection").ToString(), Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.34-mariadb")));
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
-        }
 
-        public void Configure(IApplicationBuilder app)
-        {
-            if (Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
+			services.AddIdentity<ApplicationUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
 
-            app.UseStaticFiles();
+			var builder = services.AddIdentityServer(options =>
+			{
+				options.Events.RaiseErrorEvents = true;
+				options.Events.RaiseInformationEvents = true;
+				options.Events.RaiseFailureEvents = true;
+				options.Events.RaiseSuccessEvents = true;
 
-            app.UseRouting();
-            app.UseIdentityServer();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
-        }
-    }
+				// see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+				options.EmitStaticAudienceClaim = true;
+			})
+				.AddInMemoryIdentityResources(Config.IdentityResources)
+				.AddInMemoryClients(Config.Clients)
+				.AddInMemoryApiResources(Config.ApiResources)
+				.AddInMemoryApiScopes(Config.ApiScopes)
+				.AddProfileService<Gangster>()
+				.AddAspNetIdentity<ApplicationUser>();
+
+			services.AddTransient<IProfileService, Gangster>();
+
+
+
+
+
+			// not recommended for production - you need to store your key material somewhere secure
+			builder.AddDeveloperSigningCredential();
+		}
+
+		public void Configure(IApplicationBuilder app)
+		{
+			if (Environment.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseDatabaseErrorPage();
+			}
+
+			app.UseStaticFiles();
+
+			app.UseRouting();
+			app.UseIdentityServer();
+			app.UseAuthorization();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapDefaultControllerRoute();
+			});
+		}
+	}
 }

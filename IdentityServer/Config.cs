@@ -20,14 +20,21 @@ namespace IdentityServer
                 new IdentityResources.Profile(),
                    };
 
-        //public static IEnumerable<ApiScope> ApiScopes =>
-        //    new ApiScope[]
-        //    {
-        //        new ApiScope("scope1"),
-        //        new ApiScope("scope2"),
-        //    };
+		public static IEnumerable<ApiScope> ApiScopes =>
+		   new List<ApiScope>
+		   {
+				new ApiScope("api")
+		   };
+		public static IEnumerable<ApiResource> ApiResources =>
+			new[]
+			{
+				new ApiResource("WebApi")
+				{
+					Scopes = new List<string> { "api" },
+				}
+			};
 
-        public static IEnumerable<Client> Clients =>
+		public static IEnumerable<Client> Clients =>
             new Client[]
             {
 
@@ -51,7 +58,8 @@ namespace IdentityServer
 				new Client
 				{
 					ClientId = "booking",
-					ClientSecrets = { new Secret("secret".Sha256()) },
+
+					RequireClientSecret = false,
 
 					AllowedGrantTypes = GrantTypes.Code,
 
@@ -62,8 +70,17 @@ namespace IdentityServer
 					AlwaysIncludeUserClaimsInIdToken = true,
 
 					AllowOfflineAccess = true,
-					AllowedScopes = { "openid", "profile", "custom.name" }
+					AllowedScopes = { "openid", "profile", "custom.name", "api" }
 				},
+				new Client
+				{
+					ClientId = "api",
+					ClientSecrets = { new Secret("secret".Sha256()) },
+
+					AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    
+                    AllowedScopes = { "api" }
+				}
 			};
     }
 }

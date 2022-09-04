@@ -23,13 +23,19 @@ namespace IdentityServer
 		public static IEnumerable<ApiScope> ApiScopes =>
 		   new List<ApiScope>
 		   {
-				new ApiScope("api")
+				new ApiScope
+				{
+					Name = "api"
+				}
 		   };
 		public static IEnumerable<ApiResource> ApiResources =>
 			new[]
 			{
-				new ApiResource("WebApi")
+				new ApiResource
 				{
+					Name = "WebApi",
+					ApiSecrets = {new Secret("apisecret".Sha256())},
+
 					Scopes = new List<string> { "api" },
 				}
 			};
@@ -59,7 +65,7 @@ namespace IdentityServer
 				{
 					ClientId = "booking",
 
-					RequireClientSecret = false,
+					ClientSecrets = { new Secret("secret".Sha256()) },
 
 					AllowedGrantTypes = GrantTypes.Code,
 
@@ -68,9 +74,11 @@ namespace IdentityServer
 					PostLogoutRedirectUris = { "https://localhost:5003/signout-callback-oidc" },
 					AlwaysSendClientClaims = true,
 					AlwaysIncludeUserClaimsInIdToken = true,
-
-					AllowOfflineAccess = true,
-					AllowedScopes = { "openid", "profile", "custom.name", "api" }
+					AllowedScopes = {"openid", "profile", "custom.name", "api" },
+					RequireConsent = true,
+					RequirePkce = true,
+					AllowOfflineAccess = true
+					
 				},
 				new Client
 				{
